@@ -37,6 +37,7 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 {
 	m_system = sys;
 	setWindowTitle("IfcQuery example application");
+	setWindowTitle("IfcQuery example application -- based on Fabian Gerolds GitHub commit 153 -- 03c463c Merge pull request #94 from loebl/bug/correct-meshes-after-mirroring");
 	setWindowIcon( QIcon( ":img/IfcPlusPlusViewerWindowIcon.png" ) );
 	
 	// global style sheet definitions
