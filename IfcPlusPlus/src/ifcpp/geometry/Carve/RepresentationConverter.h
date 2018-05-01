@@ -50,7 +50,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <ifcpp/IFC4/include/IfcRepresentation.h>
 #include <ifcpp/IFC4/include/IfcRepresentationItem.h>
 #include <ifcpp/IFC4/include/IfcRepresentationMap.h>
-#include <ifcpp/IFC4/include/IfcTessellatedItem.h>
+// #include <ifcpp/IFC4/include/IfcTessellatedItem.h>
 #include <ifcpp/IFC4/include/IfcTextLiteral.h>
 
 #include "IncludeCarveHeaders.h"
@@ -62,7 +62,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include "SolidModelConverter.h"
 #include "FaceConverter.h"
 #include "ProfileCache.h"
-#include "TessellatedItemConverter.h"
+// #include "TessellatedItemConverter.h"
 
 class RepresentationConverter : public StatusCallback
 {
@@ -78,7 +78,7 @@ protected:
 	shared_ptr<ProfileCache>			m_profile_cache;
 	shared_ptr<FaceConverter>			m_face_converter;
 	shared_ptr<SolidModelConverter>		m_solid_converter;
-	shared_ptr<TessellatedItemConverter> m_tessel_converter;
+	// shared_ptr<TessellatedItemConverter> m_tessel_converter;
 	
 public:
 	RepresentationConverter( shared_ptr<GeometrySettings> geom_settings, shared_ptr<UnitConverter> unit_converter )
@@ -93,7 +93,7 @@ public:
 		m_profile_cache = shared_ptr<ProfileCache>( new ProfileCache( m_curve_converter, m_spline_converter ) );
 		m_face_converter = shared_ptr<FaceConverter>( new FaceConverter( m_geom_settings, m_unit_converter, m_curve_converter, m_spline_converter, m_sweeper ) );
 		m_solid_converter = shared_ptr<SolidModelConverter>( new SolidModelConverter( m_geom_settings, m_point_converter, m_curve_converter, m_face_converter, m_profile_cache, m_sweeper ) );
-		m_tessel_converter = shared_ptr<TessellatedItemConverter>( new TessellatedItemConverter( m_unit_converter ) );
+		// m_tessel_converter = shared_ptr<TessellatedItemConverter>( new TessellatedItemConverter( m_unit_converter ) );
 		
 
 		// this redirects the callback messages from all converters to RepresentationConverter's callback
@@ -106,7 +106,7 @@ public:
 		m_profile_cache->setMessageTarget( this );
 		m_face_converter->setMessageTarget( this );
 		m_solid_converter->setMessageTarget( this );
-		m_tessel_converter->setMessageTarget( this );
+		// m_tessel_converter->setMessageTarget( this );
 	}
 
 	virtual ~RepresentationConverter()
@@ -703,12 +703,14 @@ public:
 			}
 		}
 
+		/*
 		shared_ptr<IfcTessellatedItem> ifc_tessel_item = dynamic_pointer_cast<IfcTessellatedItem>( geom_item );
 		if(ifc_tessel_item)
 		{
 			m_tessel_converter->convertTessellatedItem(ifc_tessel_item, item_data);
 			return;
 		}
+		*/
 
 		messageCallback( "Unhandled IFC Representation", StatusCallback::MESSAGE_TYPE_WARNING, __FUNC__, geom_item.get() );
 	}
