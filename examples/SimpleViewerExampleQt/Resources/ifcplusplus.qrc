@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>appicon.rc</file>
-        <file>styles.css</file>
         <file>img/appicon.ico</file>
         <file>img/bulb.png</file>
         <file>img/dropDownArrow.png</file>
