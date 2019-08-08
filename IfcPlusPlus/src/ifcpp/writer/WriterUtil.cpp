@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <sstream>
 #include <vector>
 #include <map>
+//https://stackoverflow.com/questions/12696764/round-is-not-a-member-of-std
 #include <cmath>
 #include "ifcpp/model/GlobalDefines.h"
 #include "ifcpp/model/BuildingObject.h"
