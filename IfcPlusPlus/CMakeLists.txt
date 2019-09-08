@@ -35,7 +35,7 @@ SET(IFCPP_SOURCE_FILES
   src/ifcpp/reader/ReaderUtil.cpp
   src/ifcpp/writer/WriterSTEP.cpp
   src/ifcpp/writer/WriterUtil.cpp
-  src/external/XUnzip.cpp
+  #src/external/XUnzip.cpp
 
   ${ifc4_source}
 )
