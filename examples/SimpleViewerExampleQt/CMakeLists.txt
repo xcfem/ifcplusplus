@@ -19,6 +19,11 @@ FIND_PACKAGE(Qt5Core REQUIRED)
 FIND_PACKAGE(Qt5Widgets REQUIRED)
 FIND_PACKAGE(Qt5OpenGL REQUIRED)
 ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
+# if activated the icons are there, but the background is light grey and thus the white font is very difficault to read
+# solution for me is to deactivate the styles.css which defines widget colors etc
+QT5_ADD_RESOURCES(
+    SimpleViewerExample_RESOURCES_RCC ${IFCPP_SOURCE_DIR}/examples/SimpleViewerExampleQt/Resources/ifcplusplus.qrc
+)
 
 FIND_PACKAGE(OpenSceneGraph REQUIRED osgDB osgUtil osgGA osgFX osgSim osgText osgViewer)
 
