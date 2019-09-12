@@ -124,8 +124,8 @@ export(
   FILE ${target_output}
   NAMESPACE IFCPP::)
 
-install(
-  EXPORT IfcPlusPlus
-  DESTINATION ${IFCPP_CONFIG_DIR}
-  FILE ${target_output_filename}
-  NAMESPACE IFCPP::)
+#install(
+#  EXPORT IfcPlusPlus
+#  DESTINATION ${IFCPP_CONFIG_DIR}
+#  FILE ${target_output_filename}
+#  NAMESPACE IFCPP::)
