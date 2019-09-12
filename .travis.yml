@@ -4,19 +4,17 @@ language:
 compiler:
   - gcc
 
-before_install:
-  - sudo add-apt-repository -y ppa:kubuntu-ppa/backports
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
+dist: 
+  - bionic
 
-install:
-  - sudo apt-get install libboost-dev
-  - sudo apt-get install -qq gcc-4.8 g++-4.8
-  - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install libboost1.65-dev
+  - sudo apt-get install libboost-all-dev
+  - sudo apt-get install -qq g++
   - sudo apt-get install cmake
 
-script:
+install:
   - cd IfcPlusPlus
   - mkdir build
   - cd build
