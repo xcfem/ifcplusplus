@@ -68,9 +68,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_TabReadWrite.cpp">
       <Filter>Generierte Dateien\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ViewerWidget.cpp">
-      <Filter>Generierte Dateien\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="src\cmd\CmdRemoveSelectedObjects.cpp">
       <Filter>Source Dateien</Filter>
     </ClCompile>
@@ -152,18 +149,6 @@
     <Image Include="Resources\img\appicon.ico">
       <Filter>Resource Dateien</Filter>
     </Image>
-    <Image Include="Resources\img\splitterh.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\splitterv.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\TabViewShaded.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\TabViewWireframe.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
     <Image Include="Resources\img\bulb.png">
       <Filter>Resource Dateien</Filter>
     </Image>
@@ -174,9 +159,6 @@
       <Filter>Resource Dateien</Filter>
     </Image>
     <Image Include="Resources\img\RemoveSelectedObjects.png">
-      <Filter>Resource Dateien</Filter>
-    </Image>
-    <Image Include="Resources\img\IfcPlusPlusViewerSplash.png">
       <Filter>Resource Dateien</Filter>
     </Image>
     <Image Include="Resources\img\IfcPlusPlusViewerWindowIcon.png">

@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <windows.h>
 #endif
 
+#include <cctype>
 #include <limits>
 
 #include "ifcpp/model/BuildingException.h"
@@ -1065,12 +1066,20 @@ void tokenizeInlineArgument( std::wstring arg, std::wstring& keyword, std::wstri
 	inline_arg = inline_argument;
 }
 
-void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source )
+bool std_iequal(const std::wstring& a, const std::wstring& b)
 {
-	char* pos_begin = stream_pos_source;
-	findEndOfString( stream_pos_source );
+	if (a.size() == b.size())
+	{
+		return std::equal(a.begin(), a.end(), b.begin(), [](const wchar_t l, const wchar_t r) { return std::towupper(l) == std::towupper(r); });
+	}
+	return false;
+}
 
-	size_t length = stream_pos_source - pos_begin;
-	memcpy( stream_pos, pos_begin, (length)*sizeof( char) );
-	stream_pos += length;
+bool std_iequal(const std::string& a, const std::string& b)
+{
+	if (a.size() == b.size())
+	{
+		return std::equal(a.begin(), a.end(), b.begin(), [](const char l, const char r) { return std::toupper(l) == std::toupper(r); });
+	}
+	return false;
 }

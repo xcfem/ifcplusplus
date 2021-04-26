@@ -18,6 +18,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #include <set>
 #include <vector>
 #include <map>
+#include <cstring>
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -108,17 +109,17 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 	std::wstring ext = filePath.substr(posDot + 1);
 	
-	if( boost::iequals( ext, "ifc" ) )
+	if( std_iequal( ext, L"ifc" ) )
 	{
 		// ok, nothing to do here
 	}
-	else if( boost::iequals( ext, "ifcXML" ) )
+	else if( std_iequal( ext, L"ifcXML" ) )
 	{
 		// TODO: implement xml reader
 		messageCallback( "ifcXML not yet implemented", StatusCallback::MESSAGE_TYPE_ERROR, __FUNC__ );
 		return;
 	}
-	else if( boost::iequals( ext, "ifcZIP" ) || boost::iequals(ext, "zip") )
+	else if( std_iequal( ext, L"ifcZIP" ) || std_iequal(ext, L"zip") )
 	{
 		std::string buffer;
 		unzipFile(filePath, buffer);
@@ -138,7 +139,9 @@ void ReaderSTEP::loadModelFromFile( const std::wstring& filePath, shared_ptr<Bui
 	}
 
 	// open file
-	std::string filePathStr(filePath.begin(), filePath.end());
+	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
+	std::string filePathStr = StringConverter.to_bytes(filePath);
+
 	if( !(setlocale(LC_ALL, "en-US") || setlocale(LC_ALL, "en_us.UTF-8") ||  setlocale(LC_ALL, "en_US.utf8")))
 	{
 		std::wstringstream strs;
@@ -409,7 +412,7 @@ void ReaderSTEP::splitIntoStepLines(const std::string& read_in, std::vector<std:
 		throw BuildingException("Invalid file content", __FUNC__);
 	}
 
-	stream_pos = strstr(stream_pos, "DATA;");
+	stream_pos = std::strstr(stream_pos, "DATA;");
 	if( stream_pos == nullptr )
 	{
 		throw BuildingException("Invalid file content, couldn't find DATA section", __FUNC__);

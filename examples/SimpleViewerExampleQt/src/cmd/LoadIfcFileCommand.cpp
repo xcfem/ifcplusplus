@@ -66,6 +66,8 @@ bool LoadIfcFileCommand::doCmd()
 		m_system->getModelReader()->loadModelFromFile( m_file_path, geometry_converter->getBuildingModel() );
 
 		// convert IFC geometric representations into Carve geometry
+		const double length_in_meter = geometry_converter->getBuildingModel()->getUnitConverter()->getLengthInMeterFactor();
+		geometry_converter->setCsgEps(carve::CARVE_EPSILON*length_in_meter);
 		geometry_converter->convertGeometry();
 
 		// convert Carve geometry to OSG
@@ -74,7 +76,7 @@ bool LoadIfcFileCommand::doCmd()
 		converter_osg->convertToOSG( geometry_converter->getShapeInputData(), model_switch );
 
 		// in case there are IFC entities that are not in the spatial structure
-		const std::map<int, shared_ptr<BuildingObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
+		const std::map<std::string, shared_ptr<BuildingObject> >& objects_outside_spatial_structure = geometry_converter->getObjectsOutsideSpatialStructure();
 		if( objects_outside_spatial_structure.size() > 0 )
 		{
 			osg::ref_ptr<osg::Switch> sw_objects_outside_spatial_structure = new osg::Switch();

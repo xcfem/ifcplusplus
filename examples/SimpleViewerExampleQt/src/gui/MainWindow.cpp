@@ -36,7 +36,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *parent) : m_system(sys), m_viewer_widget(vw), QMainWindow(parent)
 {
 	m_system = sys;
-	setWindowTitle("IfcQuery example application -- based on Fabian Gerolds GitHub commit 275 -- 262b2fbc -- Merge pull request #164 from berndhahnebach/gccfixes");
+	setWindowTitle("IfcQuery example application -- based on Fabian Gerolds GitHub commit 301 -- 1dfaa27c -- Merge pull request #170 from berndhahnebach/gccfixes");
 	setWindowIcon( QIcon( ":img/IfcPlusPlusViewerWindowIcon.png" ) );
 	
 	// global style sheet definitions
@@ -64,6 +64,7 @@ MainWindow::MainWindow( IfcPlusPlusSystem* sys, ViewerWidget* vw, QWidget *paren
 	// building structure widget
 	QDockWidget *dock = new QDockWidget(tr("Project structure"), this);
 	dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+	dock->setObjectName("dockWidgetProjectStructure");
 	addDockWidget(Qt::RightDockWidgetArea, dock);
 	
 	IfcTreeWidget* ifc_tree_widget = new IfcTreeWidget( m_system );

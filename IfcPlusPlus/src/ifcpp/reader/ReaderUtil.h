@@ -20,17 +20,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OU
 #pragma warning ( disable: 4996 )  // for boost\random\detail\polynomial.hpp
 
 #include <algorithm>
-#include <locale>
 #include <string>
 #include <vector>
-#include <locale>
-#include <codecvt>
 #include <map>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <boost/optional.hpp>
-#include <boost/algorithm/string.hpp>
+#include <cwctype>
 #include "ifcpp/model/BasicTypes.h"
 #include "ifcpp/model/BuildingException.h"
 #include "ifcpp/model/BuildingObject.h"
@@ -64,17 +60,8 @@ void findEndOfString(char*& stream_pos);
 void findEndOfWString(wchar_t*& stream_pos);
 void checkOpeningClosingParenthesis(const wchar_t* ch_check);
 
-inline std::wstring s2ws(const std::string& str)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	return StringConverter.from_bytes(str);
-}
-
-inline std::string ws2s(const std::wstring& wstr)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> StringConverter;
-	return StringConverter.to_bytes(wstr);
-}
+IFCQUERY_EXPORT bool std_iequal(const std::wstring& a, const std::wstring& b);
+IFCQUERY_EXPORT bool std_iequal(const std::string& a, const std::string& b);
 
 inline void readIntegerValue( const std::wstring& str, int& int_value )
 {
@@ -91,62 +78,16 @@ inline void readIntegerValue( const std::wstring& str, int& int_value )
 		int_value = std::stoi( str );
 	}
 }
-inline void readIntegerValue( const std::wstring& str, boost::optional<int>& int_value )
-{
-	if( str.compare( L"$" ) == 0 )
-	{
-		int_value = boost::none;
-	}
-	else if( str.compare( L"*" ) == 0 )
-	{
-		int_value = boost::none;
-	}
-	else
-	{
-		int_value = std::stoi( str );
-	}
-}
-inline void readRealValue( const std::wstring& str, double& real_value )
-{
-	if( str.compare( L"$" ) == 0 )
-	{
-		real_value = std::numeric_limits<double>::quiet_NaN();
-	}
-	else if( str.compare( L"*" ) == 0 )
-	{
-		real_value = std::numeric_limits<double>::quiet_NaN();
-	}
-	else
-	{
-		real_value = std::stod( str );
-	}
-}
-inline void readRealValue( const std::wstring& str, boost::optional<double>& real_value )
-{
-	if( str.compare( L"$" ) == 0 )
-	{
-		real_value = boost::none;
-	}
-	else if( str.compare( L"*" ) == 0 )
-	{
-		real_value = boost::none;
-	}
-	else
-	{
-		real_value = std::stod( str );
-	}
-}
 
-void copyToEndOfStepString( char*& stream_pos, char*& stream_pos_source );
 IFCQUERY_EXPORT void decodeArgumentStrings( std::vector<std::string>& entity_arguments, std::vector<std::wstring>& args_out );
 
 inline void readBool( const std::wstring& attribute_value, bool& target )
 {
-	if( boost::iequals( attribute_value, L".F." ) )
+	if( std_iequal( attribute_value, L".F." ) )
 	{
 		target = false;
 	}
-	else if( boost::iequals( attribute_value, L".T." ) )
+	else if( std_iequal( attribute_value, L".T." ) )
 	{
 		target = true;;
 	}
@@ -154,15 +95,15 @@ inline void readBool( const std::wstring& attribute_value, bool& target )
 
 inline void readLogical( const std::wstring& attribute_value, LogicalEnum& target )
 {
-	if( boost::iequals(attribute_value, L".F." ) )
+	if( std_iequal(attribute_value, L".F." ) )
 	{
 		target = LOGICAL_FALSE;
 	}
-	else if( boost::iequals( attribute_value, L".T." ) )
+	else if( std_iequal( attribute_value, L".T." ) )
 	{
 		target = LOGICAL_TRUE;
 	}
-	else if( boost::iequals( attribute_value, L".U." ) )
+	else if( std_iequal( attribute_value, L".U." ) )
 	{
 		target = LOGICAL_UNKNOWN;;
 	}
@@ -630,38 +571,26 @@ void readSelectType( const std::wstring& item, shared_ptr<select_t>& result, con
 	}
 	
 	// could be type like IFCPARAMETERVALUE(90)
-	std::wstring keyword;
+	std::wstring type_name;
 	std::wstring inline_arg;
-	tokenizeInlineArgument( item, keyword, inline_arg );
+	tokenizeInlineArgument( item, type_name, inline_arg );
 
-	if( keyword.size() == 0 )
+	if(type_name.size() == 0 )
 	{
 		return;
 	}
 
-	std::string type_name_upper( keyword.begin(), keyword.end() );
-	std::transform( type_name_upper.begin(), type_name_upper.end(), type_name_upper.begin(), toupper );
+	std::transform(type_name.begin(), type_name.end(), type_name.begin(), toupper );
 	
-	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject( type_name_upper.c_str(), inline_arg, map_entities );
+	shared_ptr<BuildingObject> type_instance = TypeFactory::createTypeObject(type_name.c_str(), inline_arg, map_entities );
 	if( type_instance )
 	{
 		result = dynamic_pointer_cast<select_t>(type_instance);
 		return;
 	}
 
-	//shared_ptr<BuildingEntity> entity_instance( BuildingEntityFactory::createEntityObject( type_name_upper.c_str() ) );
-	//if( entity_instance )
-	//{
-	//	entity_instance->m_id = -1;
-	//	std::vector<std::wstring> args;
-	//	args.push_back( inline_arg );
-	//	entity_instance->readStepArguments( args, map_entities );
-	//	result = dynamic_pointer_cast<select_t>(entity_instance);
-	//	return;
-	//}
-
 	std::wstringstream strs;
-	strs << "unhandled select argument: " << item << " in function " << __FUNC__ << std::endl;
+	strs << L"unhandled select argument: " << item << L" in function readSelectType" << std::endl;
 	throw BuildingException( strs.str() );
 }
 
