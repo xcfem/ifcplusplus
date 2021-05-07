@@ -22,7 +22,7 @@ this repo
 
 build on Linux (Debian)
 ---
-* development pachages for openscenegraph 3.4 have to be installed (they are linked against Qt5)
+* development packages for openscenegraph 3.4 have to be installed (they are linked against Qt5)
 * Debian Stretch see: https://gist.github.com/berndhahnebach/e4d57634fe7eebbae537bf3da1b1b95a
 * Debian Buster see: https://gist.github.com/berndhahnebach/fb9b3c69c7de0835836cc27db6043e33
 * forum topic about a Linux build on FreeCAD forum: http://www.forum.freecadweb.org/viewtopic.php?f=23&t=5101
@@ -33,6 +33,9 @@ build on Linux (Gentoo)
 ---
 * forum topic on FreeCAD forum: https://forum.freecadweb.org/viewtopic.php?t=33254
 
+build on Linux (Ubuntu)
+---
+* install development packages for openscenegraph: libopenscenegraph-dev
 
 
 ABOUT IFC++
